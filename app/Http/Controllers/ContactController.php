@@ -10,93 +10,55 @@ class ContactController extends Controller
 {
     public function send(Request $request)
     {
-        // Validation anti-spam
-        $honeypot = $request->input('contact_me_by_fax_only');
-        if ($honeypot) {
-            // C'est un bot, retourne un succès fictif
+        // 🛑 Honeypot anti-bot
+        if ($request->filled('contact_me_by_fax_only')) {
             Log::info('Bot détecté via honeypot');
-            return response()->json(['success' => true]);
+            return redirect()->back()->with('success', 'Message envoyé avec succès.');
         }
 
-        // Validation anti-temps (si < 3 secondes, c'est un bot)
-        $timestamp = $request->input('timestamp');
-        if (time() - $timestamp < 3) {
-            Log::warning('Soumission trop rapide (temps: ' . (time() - $timestamp) . 's)');
-            return response()->json([
-                'success' => false,
-                'message' => 'Veuillez prendre votre temps pour remplir le formulaire'
-            ], 422);
+        // ⏱️ Anti-spam par temps
+        if ($request->filled('timestamp') && time() - $request->timestamp < 3) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Veuillez prendre votre temps pour remplir le formulaire.');
         }
 
-        // Validation des données
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|min:2|max:100',
-                'email' => 'required|email|max:100',
-                'subject' => 'required|string|in:general,quote,support,partnership,other',
-                'message' => 'required|string|min:10|max:1000',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'errors' => $e->errors(),
-                'message' => 'Veuillez corriger les erreurs dans le formulaire'
-            ], 422);
-        }
-
-        // Préparation des données
-        $data = [
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'subject' => $validated['subject'],
-            'message' => $validated['message'],
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->header('User-Agent'),
-            'received_at' => now()->format('d/m/Y H:i:s'),
-        ];
-
-        Log::info('Nouveau message de contact', $data);
+        // ✅ Validation
+        $validated = $request->validate([
+            'name'    => 'required|string|min:2|max:100',
+            'email'   => 'required|email|max:100',
+            'subject' => 'required|in:general,quote,support,partnership,other',
+            'message' => 'required|string|min:10|max:1000',
+        ]);
 
         try {
-            // Envoi de l'email
             Mail::raw(
-                "NOUVEAU MESSAGE JUANSERVICE\n" .
-                "=======================\n" .
-                "👤 Nom : {$data['name']}\n" .
-                "📧 Email : {$data['email']}\n" .
-                "🎯 Sujet : {$data['subject']}\n" .
-                "🕐 Date : {$data['received_at']}\n" .
-                "🌐 IP : {$data['ip_address']}\n" .
-                "=======================\n\n" .
-                "📝 Message :\n" .
-                "{$data['message']}\n\n" .
-                "=======================\n" .
-                "User Agent : {$data['user_agent']}",
-                
-                function ($mail) use ($data) {
+                "NOUVEAU MESSAGE JUANSERVICE\n\n".
+                "Nom : {$validated['name']}\n".
+                "Email : {$validated['email']}\n".
+                "Sujet : {$validated['subject']}\n".
+                "Message :\n{$validated['message']}",
+                function ($mail) use ($validated) {
                     $mail->to('eyijean1@gmail.com')
-                         ->subject('📩 JuanService - Nouveau message: ' . $data['subject'])
-                         ->replyTo($data['email'], $data['name']);
+                         ->subject('📩 JuanService - Nouveau message')
+                         ->replyTo($validated['email'], $validated['name']);
                 }
             );
 
-            Log::info('Email envoyé avec succès à eyijean1@gmail.com');
+            Log::info('Message contact envoyé', $validated);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Message envoyé avec succès ! Nous vous répondrons dans les 24h.'
-            ]);
+            return redirect()->back()
+                ->with('success', 'Message envoyé avec succès ! Nous vous répondrons sous 24h.');
 
         } catch (\Exception $e) {
-            Log::error('Erreur envoi email', [
-                'error' => $e->getMessage(),
-                'data' => $data
+
+            Log::error('Erreur envoi mail contact', [
+                'error' => $e->getMessage()
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de l\'envoi du message. Veuillez réessayer ou nous contacter directement par téléphone.'
-            ], 500);
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Erreur lors de l’envoi du message. Veuillez réessayer.');
         }
     }
 }
