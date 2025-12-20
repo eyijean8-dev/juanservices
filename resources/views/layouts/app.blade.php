@@ -14,7 +14,7 @@
     <meta property="og:title" content="JuanServices | Solutions Numériques Professionnelles">
     <meta property="og:description" content="Agence de développement web & mobile au Gabon. Transformons vos idées en solutions digitales performantes.">
     <meta property="og:image" content="{{ asset('images/og-image.png') }}">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="https://juanservices.onrender.com">
     <meta property="og:type" content="website">
     
     {{-- TWITTER CARD --}}
