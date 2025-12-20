@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <!-- Formulaire amélioré -->
+            <!-- Formulaire amélioré et SÉCURISÉ -->
             <div data-aos="fade-left" data-aos-delay="200">
                 <div class="bg-white rounded-2xl p-8 shadow-lg">
                     <h2 class="text-3xl font-bold text-gray-900 mb-4">
@@ -97,71 +97,99 @@
                     </h2>
                     <p class="text-gray-600 mb-8">Nous vous répondrons dans les plus brefs délais</p>
 
-                    <form id="contactForm" method="POST" action="{{ route('contact.send') }}" class="space-y-6">
+                    <form id="contactForm" 
+                        method="POST" 
+                        action="{{ route('contact.send') }}" 
+                        class="space-y-6"
+                        autocomplete="on"
+                        novalidate>
                         @csrf
+                        
+                        <!-- Champ honeypot pour les bots -->
+                        <input type="checkbox" name="contact_me_by_fax_only" value="1" tabindex="-1" autocomplete="off" class="hidden">
                         
                         <!-- Nom -->
                         <div>
-                            <label class="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                            <label for="name" class="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                 <i class="fa fa-user text-blue-500 text-sm"></i>
                                 Votre nom complet
                             </label>
                             <input type="text" 
-                                   id="name" 
-                                   name="name"
-                                   required
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                                id="name" 
+                                name="name"
+                                required
+                                minlength="2"
+                                maxlength="100"
+                                autocomplete="name"
+                                placeholder="Votre nom et prénom"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                             <div class="text-red-500 text-sm mt-1 hidden" id="nameError"></div>
                         </div>
 
                         <!-- Email -->
                         <div>
-                            <label class="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                            <label for="email" class="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                 <i class="fa fa-envelope text-blue-500 text-sm"></i>
                                 Adresse email
                             </label>
                             <input type="email" 
-                                   id="email" 
-                                   name="email"
-                                   required
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                                id="email" 
+                                name="email"
+                                required
+                                autocomplete="email"
+                                placeholder="exemple@email.com"
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                title="Veuillez entrer une adresse email valide"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                             <div class="text-red-500 text-sm mt-1 hidden" id="emailError"></div>
                         </div>
 
                         <!-- Sujet -->
                         <div>
-                            <label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <label for="subject" class="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                <i class="fa fa-tag text-blue-500 text-sm"></i>
                                 Sujet
                             </label>
                             <select id="subject" 
                                     name="subject"
+                                    required
+                                    autocomplete="off"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
-                                <option value="">Sélectionnez un sujet</option>
+                                <option value="" disabled selected>Sélectionnez un sujet</option>
                                 <option value="general">Question générale</option>
                                 <option value="quote">Demande de devis</option>
                                 <option value="support">Support technique</option>
                                 <option value="partnership">Partenariat</option>
+                                <option value="other">Autre</option>
                             </select>
+                            <div class="text-red-500 text-sm mt-1 hidden" id="subjectError"></div>
                         </div>
 
                         <!-- Message -->
                         <div>
-                            <label class="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                            <label for="message" class="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                 <i class="fa fa-edit text-blue-500 text-sm"></i>
                                 Votre message
                             </label>
                             <textarea id="message" 
-                                      name="message"
-                                      rows="5"
-                                      required
-                                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"></textarea>
+                                    name="message"
+                                    rows="5"
+                                    required
+                                    minlength="10"
+                                    maxlength="1000"
+                                    autocomplete="off"
+                                    placeholder="Décrivez votre projet ou question..."
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"></textarea>
                             <div class="text-red-500 text-sm mt-1 hidden" id="messageError"></div>
                         </div>
 
+                        <!-- Protection anti-spam (timestamp) -->
+                        <input type="hidden" name="timestamp" id="timestamp" value="{{ time() }}">
+                        
                         <!-- Bouton avec loader -->
                         <button type="submit"
                                 id="submitBtn"
-                                class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed">
                             <span id="btnText">Envoyer le message</span>
                             <div id="loader" class="hidden">
                                 <i class="fas fa-spinner fa-spin"></i> Envoi en cours...
@@ -173,6 +201,12 @@
                             <i class="fas fa-check-circle text-xl mb-2"></i>
                             <p class="font-semibold">Message envoyé avec succès !</p>
                             <p class="text-sm">Nous vous répondrons dans les 24h.</p>
+                        </div>
+
+                        <!-- Message d'erreur -->
+                        <div id="errorMessage" class="hidden bg-red-50 text-red-700 p-4 rounded-xl text-center">
+                            <i class="fas fa-exclamation-circle text-xl mb-2"></i>
+                            <p class="font-semibold" id="errorText"></p>
                         </div>
                     </form>
                 </div>
@@ -227,53 +261,162 @@
 <!-- Script JavaScript pour le formulaire -->
 @push('scripts')
 <script>
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
     const btnText = document.getElementById('btnText');
     const loader = document.getElementById('loader');
     const successMessage = document.getElementById('successMessage');
-    
-    // Reset errors
-    document.querySelectorAll('[id$="Error"]').forEach(el => {
-        el.classList.add('hidden');
-    });
-    
-    // Show loader
-    btnText.classList.add('hidden');
-    loader.classList.remove('hidden');
-    submitBtn.disabled = true;
-    
-    const formData = new FormData(this);
+    const errorMessage = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
 
-    try {
-        const response = await fetch(this.action, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-            },
-            body: formData
+    // Validation avant soumission
+    function validateForm() {
+        let isValid = true;
+        
+        // Reset errors
+        document.querySelectorAll('[id$="Error"]').forEach(el => {
+            el.classList.add('hidden');
         });
+        errorMessage.classList.add('hidden');
 
-        if (!response.ok) throw new Error('Erreur réseau');
+        // Validation nom
+        const name = document.getElementById('name').value.trim();
+        if (name.length < 2) {
+            document.getElementById('nameError').textContent = 'Le nom doit contenir au moins 2 caractères';
+            document.getElementById('nameError').classList.remove('hidden');
+            isValid = false;
+        }
 
-        successMessage.classList.remove('hidden');
-        this.reset();
+        // Validation email
+        const email = document.getElementById('email').value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            document.getElementById('emailError').textContent = 'Veuillez entrer une adresse email valide';
+            document.getElementById('emailError').classList.remove('hidden');
+            isValid = false;
+        }
 
-        // Hide success message after 5 seconds
-        setTimeout(() => {
-            successMessage.classList.add('hidden');
-        }, 5000);
+        // Validation sujet
+        const subject = document.getElementById('subject').value;
+        if (!subject) {
+            document.getElementById('subjectError').textContent = 'Veuillez sélectionner un sujet';
+            document.getElementById('subjectError').classList.remove('hidden');
+            isValid = false;
+        }
 
-    } catch (error) {
-        alert('Erreur lors de l\'envoi. Veuillez réessayer.');
-        console.error(error);
-    } finally {
-        btnText.classList.remove('hidden');
-        loader.classList.add('hidden');
-        submitBtn.disabled = false;
+        // Validation message
+        const message = document.getElementById('message').value.trim();
+        if (message.length < 10) {
+            document.getElementById('messageError').textContent = 'Le message doit contenir au moins 10 caractères';
+            document.getElementById('messageError').classList.remove('hidden');
+            isValid = false;
+        }
+
+        // Validation anti-spam (si moins de 3 secondes, c'est un bot)
+        const timestamp = document.getElementById('timestamp').value;
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (currentTime - timestamp < 3) {
+            errorText.textContent = 'Veuillez prendre votre temps pour remplir le formulaire';
+            errorMessage.classList.remove('hidden');
+            isValid = false;
+        }
+
+        return isValid;
     }
+
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validation
+        if (!validateForm()) {
+            return;
+        }
+
+        // Protection anti-double soumission
+        if (submitBtn.disabled) {
+            return;
+        }
+        
+        // Désactive l'auto-complétion après soumission
+        contactForm.setAttribute('autocomplete', 'off');
+        
+        // Show loader
+        btnText.classList.add('hidden');
+        loader.classList.remove('hidden');
+        submitBtn.disabled = true;
+
+        const formData = new FormData(this);
+
+        try {
+            const response = await fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                // Success
+                successMessage.classList.remove('hidden');
+                contactForm.reset();
+                contactForm.setAttribute('autocomplete', 'on'); // Réactive pour nouveaux messages
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.classList.add('hidden');
+                }, 5000);
+
+            } else {
+                // Show server errors
+                if (data.errors) {
+                    for (const [field, errors] of Object.entries(data.errors)) {
+                        const errorElement = document.getElementById(field + 'Error');
+                        if (errorElement) {
+                            errorElement.textContent = errors[0];
+                            errorElement.classList.remove('hidden');
+                        }
+                    }
+                } else {
+                    errorText.textContent = data.message || 'Erreur lors de l\'envoi';
+                    errorMessage.classList.remove('hidden');
+                }
+            }
+
+        } catch (error) {
+            console.error('Erreur:', error);
+            errorText.textContent = 'Erreur de connexion. Vérifiez votre internet et réessayez.';
+            errorMessage.classList.remove('hidden');
+        } finally {
+            // Hide loader
+            btnText.classList.remove('hidden');
+            loader.classList.add('hidden');
+            submitBtn.disabled = false;
+            
+            // Réactive le bouton après 3 secondes pour éviter les doubles clics
+            setTimeout(() => {
+                submitBtn.disabled = false;
+            }, 3000);
+        }
+    });
+
+    // Validation en temps réel
+    const inputs = contactForm.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.value.trim()) {
+                this.classList.remove('border-red-300');
+                this.classList.add('border-green-300');
+            } else {
+                this.classList.remove('border-green-300');
+            }
+        });
+    });
 });
 </script>
 @endpush
