@@ -32,6 +32,7 @@
    {{-- FAVICON --}}
       <!-- Favicon en HTTPS -->
     <link rel="icon" href="{{ secure_asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
     <title>@yield('title', 'JuanServices | Agence Digitale Gabon')</title>

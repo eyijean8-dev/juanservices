@@ -97,6 +97,21 @@
                     </h2>
                     <p class="text-gray-600 mb-8">Nous vous répondrons dans les plus brefs délais</p>
 
+                    {{-- ✅ MESSAGE DE SUCCÈS --}}
+                    @if(session('success'))
+                        <div class="bg-green-50 text-green-700 p-4 rounded-xl text-center mb-6">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    {{-- ❌ OPTIONNEL : MESSAGE D’ERREUR GLOBAL --}}
+                    @if(session('error'))
+                        <div class="bg-red-50 text-red-700 p-4 rounded-xl text-center mb-6">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <form id="contactForm" 
                         method="POST" 
                         action="{{ route('contact.send') }}" 
@@ -259,110 +274,6 @@
 </section>
 
 <!-- Script JavaScript pour le formulaire -->
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
-    const loader = document.getElementById('loader');
-    const successMessage = document.getElementById('successMessage');
-    const errorMessage = document.getElementById('errorMessage');
-    const errorText = document.getElementById('errorText');
-
-    // Récupère le token CSRF
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
-                      document.querySelector('input[name="_token"]')?.value;
-
-    // Force HTTPS pour l'action du formulaire
-    let formAction = contactForm.getAttribute('action');
-    if (formAction.startsWith('http://')) {
-        formAction = formAction.replace('http://', 'https://');
-        contactForm.setAttribute('action', formAction);
-    }
-
-    contactForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Désactive le bouton
-        btnText.classList.add('hidden');
-        loader.classList.remove('hidden');
-        submitBtn.disabled = true;
-        errorMessage.classList.add('hidden');
-
-        const formData = new FormData(this);
-
-        try {
-            // Utilise l'URL absolue avec HTTPS
-            const url = new URL(this.action, window.location.origin);
-            url.protocol = 'https:'; // Force HTTPS
-            
-            const response = await fetch(url.toString(), {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: formData,
-                mode: 'cors',
-                credentials: 'same-origin'
-            });
-
-            const data = await response.json();
-
-            if (response.ok && data.success) {
-                // Success
-                successMessage.classList.remove('hidden');
-                contactForm.reset();
-                
-                setTimeout(() => {
-                    successMessage.classList.add('hidden');
-                }, 5000);
-
-            } else {
-                // Show server errors
-                if (data.errors) {
-                    for (const [field, errors] of Object.entries(data.errors)) {
-                        const errorElement = document.getElementById(field + 'Error');
-                        if (errorElement) {
-                            errorElement.textContent = errors[0];
-                            errorElement.classList.remove('hidden');
-                        }
-                    }
-                } else {
-                    errorText.textContent = data.message || 'Erreur lors de l\'envoi';
-                    errorMessage.classList.remove('hidden');
-                }
-            }
-
-        } catch (error) {
-            console.error('Erreur détaillée:', error);
-            errorText.textContent = 'Erreur de connexion. Si le problème persiste, contactez-nous par téléphone ou WhatsApp.';
-            errorMessage.classList.remove('hidden');
-        } finally {
-            // Réactive le bouton
-            btnText.classList.remove('hidden');
-            loader.classList.add('hidden');
-            submitBtn.disabled = false;
-        }
-    });
-
-    // Validation en temps réel pour email
-    const emailInput = document.getElementById('email');
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    
-    emailInput.addEventListener('blur', function() {
-        if (this.value && !emailRegex.test(this.value)) {
-            document.getElementById('emailError').textContent = 'Email invalide';
-            document.getElementById('emailError').classList.remove('hidden');
-        } else {
-            document.getElementById('emailError').classList.add('hidden');
-        }
-    });
-});
-</script>
-@endpush
 
 <!-- Styles additionnels -->
 @push('styles')
