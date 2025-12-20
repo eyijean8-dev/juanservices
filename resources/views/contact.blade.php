@@ -97,7 +97,7 @@
                     </h2>
                     <p class="text-gray-600 mb-8">Nous vous répondrons dans les plus brefs délais</p>
 
-                    <form id="contactForm" class="space-y-6">
+                    <form id="contactForm" method="POST" action="{{ route('contact.send') }}" class="space-y-6">
                         @csrf
                         
                         <!-- Nom -->
