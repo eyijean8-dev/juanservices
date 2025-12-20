@@ -343,13 +343,12 @@
                         <span class="text-2xl font-bold text-green-600">SN</span>
                     </div>
                     <div>
-                        <h4 class="font-bold text-gray-900">Sarah N.</h4>
-                        <p class="text-sm text-gray-500">PME - Port-Gentil</p>
+                        <h4 class="font-bold text-gray-900">Collectif Telecom 5.</h4>
+                        <p class="text-sm text-gray-500">Gabon, Franceville </p>
                     </div>
                 </div>
                 <p class="text-gray-600 italic mb-6">
-                    "Une équipe sérieuse qui comprend parfaitement les besoins clients. 
-                    Notre application web a considérablement boosté notre visibilité."
+                    "Une équipe sérieuse qui comprend parfaitement les besoins clients."
                 </p>
                 <div class="flex text-yellow-400">
                     <i class="fa-solid fa-star"></i>
