@@ -22,13 +22,12 @@
     <meta name="twitter:title" content="JuanServices | Développement Web & Mobile">
     <meta name="twitter:description" content="Solutions digitales sur mesure pour votre entreprise">
     
-    {{-- FAVICON --}}
-    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png') }}">
-    
-    <title>@yield('title', 'JuanServices | Agence Digitale Gabon')</title>
+   {{-- FAVICON --}}
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    <link rel="icon" type="image/png" href="{{ asset('images/loogo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+
+    <title>@yield('title', 'JuanServices | Agence Digitale Gabon')</title>
+
 
     {{-- PRELOAD --}}
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" as="style">
