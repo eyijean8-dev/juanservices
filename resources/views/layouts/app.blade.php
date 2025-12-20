@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+     <!-- Force HTTPS pour toutes les URLs -->
+    <base href="https://juanservices.onrender.com/" />
+
     {{-- META SEO --}}
     <meta name="description" content="JuanServices - Agence de développement web & mobile au Gabon. Création de sites web, applications mobiles, design UI/UX et hébergement professionnel.">
     <meta name="keywords" content="développement web Gabon, création site web, application mobile, design UI/UX, hébergement web, agence digitale Libreville">
@@ -21,9 +24,14 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="JuanServices | Développement Web & Mobile">
     <meta name="twitter:description" content="Solutions digitales sur mesure pour votre entreprise">
+    <!-- Meta pour prévenir mixed content -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
    {{-- FAVICON --}}
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
+      <!-- Favicon en HTTPS -->
+    <link rel="icon" href="{{ secure_asset('favicon.ico') }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
     <title>@yield('title', 'JuanServices | Agence Digitale Gabon')</title>

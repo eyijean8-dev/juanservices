@@ -132,16 +132,16 @@
                                 <i class="fa fa-envelope text-blue-500 text-sm"></i>
                                 Adresse email
                             </label>
+                            <!-- REMPLACE l'ancien pattern par : -->
                             <input type="email" 
                                 id="email" 
                                 name="email"
                                 required
                                 autocomplete="email"
                                 placeholder="exemple@email.com"
-                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                                 title="Veuillez entrer une adresse email valide"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
-                            <div class="text-red-500 text-sm mt-1 hidden" id="emailError"></div>
                         </div>
 
                         <!-- Sujet -->
@@ -270,93 +270,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorMessage = document.getElementById('errorMessage');
     const errorText = document.getElementById('errorText');
 
-    // Validation avant soumission
-    function validateForm() {
-        let isValid = true;
-        
-        // Reset errors
-        document.querySelectorAll('[id$="Error"]').forEach(el => {
-            el.classList.add('hidden');
-        });
-        errorMessage.classList.add('hidden');
+    // Récupère le token CSRF
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
+                      document.querySelector('input[name="_token"]')?.value;
 
-        // Validation nom
-        const name = document.getElementById('name').value.trim();
-        if (name.length < 2) {
-            document.getElementById('nameError').textContent = 'Le nom doit contenir au moins 2 caractères';
-            document.getElementById('nameError').classList.remove('hidden');
-            isValid = false;
-        }
-
-        // Validation email
-        const email = document.getElementById('email').value;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            document.getElementById('emailError').textContent = 'Veuillez entrer une adresse email valide';
-            document.getElementById('emailError').classList.remove('hidden');
-            isValid = false;
-        }
-
-        // Validation sujet
-        const subject = document.getElementById('subject').value;
-        if (!subject) {
-            document.getElementById('subjectError').textContent = 'Veuillez sélectionner un sujet';
-            document.getElementById('subjectError').classList.remove('hidden');
-            isValid = false;
-        }
-
-        // Validation message
-        const message = document.getElementById('message').value.trim();
-        if (message.length < 10) {
-            document.getElementById('messageError').textContent = 'Le message doit contenir au moins 10 caractères';
-            document.getElementById('messageError').classList.remove('hidden');
-            isValid = false;
-        }
-
-        // Validation anti-spam (si moins de 3 secondes, c'est un bot)
-        const timestamp = document.getElementById('timestamp').value;
-        const currentTime = Math.floor(Date.now() / 1000);
-        if (currentTime - timestamp < 3) {
-            errorText.textContent = 'Veuillez prendre votre temps pour remplir le formulaire';
-            errorMessage.classList.remove('hidden');
-            isValid = false;
-        }
-
-        return isValid;
+    // Force HTTPS pour l'action du formulaire
+    let formAction = contactForm.getAttribute('action');
+    if (formAction.startsWith('http://')) {
+        formAction = formAction.replace('http://', 'https://');
+        contactForm.setAttribute('action', formAction);
     }
 
     contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // Validation
-        if (!validateForm()) {
-            return;
-        }
-
-        // Protection anti-double soumission
-        if (submitBtn.disabled) {
-            return;
-        }
-        
-        // Désactive l'auto-complétion après soumission
-        contactForm.setAttribute('autocomplete', 'off');
-        
-        // Show loader
+        // Désactive le bouton
         btnText.classList.add('hidden');
         loader.classList.remove('hidden');
         submitBtn.disabled = true;
+        errorMessage.classList.add('hidden');
 
         const formData = new FormData(this);
 
         try {
-            const response = await fetch(this.action, {
+            // Utilise l'URL absolue avec HTTPS
+            const url = new URL(this.action, window.location.origin);
+            url.protocol = 'https:'; // Force HTTPS
+            
+            const response = await fetch(url.toString(), {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    'X-CSRF-TOKEN': csrfToken,
                     'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: formData
+                body: formData,
+                mode: 'cors',
+                credentials: 'same-origin'
             });
 
             const data = await response.json();
@@ -365,9 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Success
                 successMessage.classList.remove('hidden');
                 contactForm.reset();
-                contactForm.setAttribute('autocomplete', 'on'); // Réactive pour nouveaux messages
-
-                // Hide success message after 5 seconds
+                
                 setTimeout(() => {
                     successMessage.classList.add('hidden');
                 }, 5000);
@@ -389,33 +337,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
         } catch (error) {
-            console.error('Erreur:', error);
-            errorText.textContent = 'Erreur de connexion. Vérifiez votre internet et réessayez.';
+            console.error('Erreur détaillée:', error);
+            errorText.textContent = 'Erreur de connexion. Si le problème persiste, contactez-nous par téléphone ou WhatsApp.';
             errorMessage.classList.remove('hidden');
         } finally {
-            // Hide loader
+            // Réactive le bouton
             btnText.classList.remove('hidden');
             loader.classList.add('hidden');
             submitBtn.disabled = false;
-            
-            // Réactive le bouton après 3 secondes pour éviter les doubles clics
-            setTimeout(() => {
-                submitBtn.disabled = false;
-            }, 3000);
         }
     });
 
-    // Validation en temps réel
-    const inputs = contactForm.querySelectorAll('input, textarea, select');
-    inputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            if (this.value.trim()) {
-                this.classList.remove('border-red-300');
-                this.classList.add('border-green-300');
-            } else {
-                this.classList.remove('border-green-300');
-            }
-        });
+    // Validation en temps réel pour email
+    const emailInput = document.getElementById('email');
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
+    emailInput.addEventListener('blur', function() {
+        if (this.value && !emailRegex.test(this.value)) {
+            document.getElementById('emailError').textContent = 'Email invalide';
+            document.getElementById('emailError').classList.remove('hidden');
+        } else {
+            document.getElementById('emailError').classList.add('hidden');
+        }
     });
 });
 </script>
