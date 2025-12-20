@@ -245,23 +245,31 @@ document.getElementById('contactForm').addEventListener('submit', async function
     loader.classList.remove('hidden');
     submitBtn.disabled = true;
     
+    const formData = new FormData(this);
+
     try {
-        // Simulation d'envoi - À remplacer par fetch() réel
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // Success
+        const response = await fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+            },
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Erreur réseau');
+
         successMessage.classList.remove('hidden');
         this.reset();
-        
+
         // Hide success message after 5 seconds
         setTimeout(() => {
             successMessage.classList.add('hidden');
         }, 5000);
-        
+
     } catch (error) {
         alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+        console.error(error);
     } finally {
-        // Hide loader
         btnText.classList.remove('hidden');
         loader.classList.add('hidden');
         submitBtn.disabled = false;
