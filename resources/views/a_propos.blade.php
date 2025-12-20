@@ -135,7 +135,7 @@
                             <a href="#" class="w-10 h-10 bg-green-100 text-green-600 rounded-lg flex items-center justify-center hover:bg-green-600 hover:text-white transition-all">
                                 <i class="fab fa-whatsapp"></i>
                             </a>
-                            <a href="mailto:contact@juanservices.ga" class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center hover:bg-red-600 hover:text-white transition-all">
+                            <a href="mailto:eyijean1@gmail.com" class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center hover:bg-red-600 hover:text-white transition-all">
                                 <i class="fa-solid fa-envelope"></i>
                             </a>
                         </div>

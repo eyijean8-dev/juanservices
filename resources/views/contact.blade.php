@@ -52,14 +52,14 @@
                         </a>
 
                         <!-- Email -->
-                        <a href="mailto:contact@juanservices.com"
+                        <a href="mailto:eyijean1@gmail.com"
                            class="flex items-center gap-4 p-4 rounded-xl hover:bg-red-50 transition-all duration-300 group">
                             <div class="bg-red-100 p-3 rounded-lg group-hover:bg-red-200 transition">
                                 <i class="fas fa-envelope text-2xl text-red-600"></i>
                             </div>
                             <div>
                                 <p class="font-semibold text-gray-900">Email</p>
-                                <p class="text-gray-600 break-all">contact@juanservices.com</p>
+                                <p class="text-gray-600 break-all">eyijean1@gmail.com</p>
                                 <p class="text-sm text-red-600 mt-1">Réponse sous 24h</p>
                             </div>
                         </a>

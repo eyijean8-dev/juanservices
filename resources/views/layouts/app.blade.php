@@ -405,7 +405,7 @@
                     <ul class="space-y-4 text-gray-300 mb-6">
                         <li class="flex items-center gap-3">
                             <i class="fa-solid fa-envelope text-blue-400"></i>
-                            <span>contact@juanservices.ga</span>
+                            <span>eyijean1@gmail.com</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="fa-solid fa-phone text-green-400"></i>
@@ -422,7 +422,7 @@
                         <a href="#" class="w-12 h-12 rounded-xl bg-white/10 hover:bg-blue-700 flex items-center justify-center text-xl transition-all hover:scale-110 hover:rotate-6">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="w-12 h-12 rounded-xl bg-white/10 hover:bg-green-600 flex items-center justify-center text-xl transition-all hover:scale-110 hover:-rotate-6">
+                        <a href="https://wa.me/24166413493" class="w-12 h-12 rounded-xl bg-white/10 hover:bg-green-600 flex items-center justify-center text-xl transition-all hover:scale-110 hover:-rotate-6">
                             <i class="fab fa-whatsapp"></i>
                         </a>
                         <a href="#" class="w-12 h-12 rounded-lg bg-white/10 hover:bg-gray-700 flex items-center justify-center text-xl transition-all hover:scale-110 hover:rotate-12">
