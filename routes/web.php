@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\ContactController;
 
 Route::get('/sitemap.xml', function () {
     $urls = [
@@ -27,3 +28,5 @@ Route::view('/services', 'services')->name('services');
 Route::view('/projets', 'projets')->name('projets');
 Route::view('/a_propos', 'a_propos')->name('a_propos');
 Route::view('/contact', 'contact')->name('contact');
+
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
