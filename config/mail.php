@@ -37,6 +37,10 @@ return [
 
     'mailers' => [
 
+        'resend' => [
+            'transport' => 'resend',
+        ],
+
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME'),
@@ -53,9 +57,6 @@ return [
             'transport' => 'ses',
         ],
 
-        'resend' => [
-            'transport' => 'resend',
-        ],
 
 
         'postmark' => [
@@ -66,9 +67,6 @@ return [
             // ],
         ],
 
-        'resend' => [
-            'transport' => 'resend',
-        ],
 
         'sendmail' => [
             'transport' => 'sendmail',
