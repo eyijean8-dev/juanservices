@@ -56,7 +56,7 @@
         <!-- Sous-titre animé -->
         <div class="mb-10 max-w-3xl mx-auto" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
             <p class="text-xl md:text-2xl text-blue-100 leading-relaxed mb-4">
-                Agence de développement web & mobile au Gabon
+                Agence de développement web & mobile
             </p>
             <div class="h-16 flex items-center justify-center">
                 <p id="typed-text" class="text-lg md:text-xl text-cyan-200 font-medium"></p>

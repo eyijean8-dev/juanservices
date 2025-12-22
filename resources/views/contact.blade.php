@@ -70,8 +70,8 @@
                                 <i class="fas fa-map-marker-alt text-2xl text-gray-700"></i>
                             </div>
                             <div>
-                                <p class="font-semibold text-gray-900">Localisation</p>
-                                <p class="text-gray-600">Franeville, Gabon</p>
+                                <p class="font-semibold text-gray-900">Siège</p>
+                                <p class="text-gray-600">Franceville, Gabon</p>
                                 <p class="text-sm text-gray-500 mt-1">Quartier Maboukou</p>
                             </div>
                         </div>

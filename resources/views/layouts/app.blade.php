@@ -8,14 +8,14 @@
     <base href="https://juanservices.onrender.com/" />
 
     {{-- META SEO --}}
-    <meta name="description" content="JuanServices - Agence de développement web & mobile au Gabon. Création de sites web, applications mobiles, design UI/UX et hébergement professionnel.">
-    <meta name="keywords" content="développement web Gabon, création site web, application mobile, design UI/UX, hébergement web, agence digitale Libreville">
+    <meta name="description" content="JuanServices - Agence de développement web & mobile. Création de sites web, applications mobiles, design UI/UX et hébergement professionnel.">
+    <meta name="keywords" content="développement web, création site web, application mobile, design UI/UX, hébergement web, agence digitale Libreville">
     <meta name="author" content="JuanServices">
     <meta name="robots" content="index, follow">
     
     {{-- OPEN GRAPH --}}
     <meta property="og:title" content="JuanServices | Solutions Numériques Professionnelles">
-    <meta property="og:description" content="Agence de développement web & mobile au Gabon. Transformons vos idées en solutions digitales performantes.">
+    <meta property="og:description" content="Agence de développement web & mobile. Transformons vos idées en solutions digitales performantes.">
     <meta property="og:image" content="{{ asset('images/og-image.png') }}">
     <meta property="og:url" content="https://juanservices.onrender.com">
     <meta property="og:type" content="website">
@@ -35,7 +35,7 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
-    <title>@yield('title', 'JuanServices | Agence Digitale Gabon')</title>
+    <title>@yield('title', 'JuanServices | Agence Digitale')</title>
 
 
     {{-- PRELOAD --}}
@@ -310,7 +310,7 @@
                         </div>
                     </div>
                     <p class="text-gray-300 text-sm leading-relaxed">
-                        Spécialistes en développement web & mobile au Gabon. 
+                        Spécialistes en développement web & mobile . 
                         Nous transformons vos idées en solutions digitales performantes.
                     </p>
                     <div class="flex gap-3">
@@ -432,7 +432,7 @@
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="fa-solid fa-location-dot text-red-400"></i>
-                            <span>Libreville, Gabon</span>
+                            <span>Franceville, Gabon</span>
                         </li>
                     </ul>
                     

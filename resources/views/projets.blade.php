@@ -112,10 +112,7 @@
                         </div>
                         
                         <!-- CTA -->
-                        <button class="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                            <span>Voir l'étude de cas</span>
-                            <i class="fa-solid fa-arrow-right group-hover/btn:translate-x-1 transition-transform"></i>
-                        </button>
+
                     </div>
                 </div>
             </div>
@@ -187,10 +184,7 @@
                         </div>
                         
                         <!-- CTA -->
-                        <a href="#" target="_blank" class="block w-full py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                            <span>Visiter le site</span>
-                            <i class="fa-solid fa-external-link-alt group-hover/btn:scale-110 transition-transform"></i>
-                        </a>
+
                     </div>
                 </div>
             </div>
@@ -278,10 +272,7 @@
                         </div>
                         
                         <!-- CTA -->
-                        <button class="w-full py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-indigo-800 transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                            <span>Voir la démo technique</span>
-                            <i class="fa-solid fa-code group-hover/btn:rotate-90 transition-transform"></i>
-                        </button>
+
                     </div>
                 </div>
             </div>
@@ -378,10 +369,7 @@
                         </div>
                         
                         <!-- CTA -->
-                        <a href="#" target="_blank" class="block w-full py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-semibold rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                            <span>Essayer l'application</span>
-                            <i class="fa-solid fa-gas-pump group-hover/btn:rotate-180 transition-transform"></i>
-                        </a>
+
                     </div>
                 </div>
             </div>
