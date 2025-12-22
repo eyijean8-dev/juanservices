@@ -406,12 +406,7 @@
                             </div>
                             <span class="text-gray-200 group-hover:text-white">Design UI/UX</span>
                         </li>
-                        <li class="group flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/5 transition-all duration-200">
-                            <div class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-                                <i class="fa-solid fa-server text-orange-400 text-sm group-hover:animate-pulse"></i>
-                            </div>
-                            <span class="text-gray-200 group-hover:text-white">Hébergement</span>
-                        </li>
+                        
                     </ul>
                 </div>
 
