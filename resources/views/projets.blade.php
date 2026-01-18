@@ -187,6 +187,19 @@
 
                     </div>
                 </div>
+
+                <!-- CTA -->
+                <div class="flex justify-center">
+                    <a href="https://emeloconseils.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white font-semibold rounded-xl
+                            hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl">
+                        <i class="fa-solid fa-globe"></i>
+                        Visiter le site
+                    </a>
+                </div>
+
             </div>
             <!-- Projet 3 -->
             <div class="group" data-aos="fade-right" data-aos-delay="300">
