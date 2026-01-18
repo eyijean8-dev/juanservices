@@ -213,7 +213,7 @@
                         <!-- Badge statut -->
                         <div class="absolute top-4 left-4">
                             <span class="px-3 py-1 bg-blue-500 text-white text-xs font-bold rounded-full">
-                                <i class="fa-solid fa-flask mr-1"></i> Prototype
+                                <i class="fa-solid fa-flask mr-1"></i> Opérationnel
                             </span>
                         </div>
                         <!-- Catégorie -->
